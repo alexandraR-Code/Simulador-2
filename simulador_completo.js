@@ -15,6 +15,7 @@ function ocultarSecciones(){
   //Quitar la clase activa a todas las secciones por su id
   document.getElementById("parametros").classList.remove("activa");
   document.getElementById("clientes").classList.remove("activa");
+  document.getElementById("credito").classList.remove("activa");
 }
 //funcion que muestra solo la seccion cuyo id recibe como parametro 
 function mostrarSeccion(id){
@@ -124,5 +125,10 @@ function limpiar(){
   mostrarTextoEnCaja("apellido", "");
   mostrarTextoEnCaja("ingresos", "");
   mostrarTextoEnCaja("egresos", "");
+
+}
+
+function buscarClienteCredito(){
+  let cedula  = document
 
 }
