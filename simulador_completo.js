@@ -45,6 +45,12 @@ function guardarCliente(){
   let ingresos = recuperarFloat("ingresos");
   let egresos = recuperarFloat("egresos");
 
+  //Buscamos si el cliente ya existe
+  let clienteExiste = buscarCliente(cedula);
+
+  // si no existe lo creamos
+  if(clienteExiste == null){
+
   //creamos el objeto cliente
   let cliente = {
     cedula: cedula,
@@ -56,6 +62,13 @@ function guardarCliente(){
 
   //agregamos el objeto al arreglo
   clientes.push(cliente);
+  }else{
+    //si existe actualizamos sus datos exepto la cedula
+    clienteExiste.nombre = nombre;
+    clienteExiste.apellido = apellido;
+    clienteExiste.ingresos = ingresos;
+    clienteExiste.egresos = egresos;
+  }
 
   pintarClientes();
 }
@@ -76,7 +89,40 @@ function pintarClientes(){
       "<td>" + cliente.apellido + "</td>" + 
       "<td>" + cliente.ingresos + "</td>" + 
       "<td>"+ cliente.egresos + "</td>" + 
-      "<td><button>Actualizar</button></td>" +
+      "<td><button onclick=\"seleccionarCliente('" + cliente.cedula + "')\">Actualizar</button></td>" +
     "</tr>"
   }
+}
+function buscarCliente(cedula){
+  //Recorremos el arreglo buscando la cedula
+  for(let i = 0; i < clientes.length; i++){
+    //Si encontramos la cedula retorna
+    if(clientes[i].cedula == cedula){
+      return clientes[i];
+    }
+  }
+  //Si no retorna null
+  return null;
+}
+
+function seleccionarCliente(cedula){
+  //buscar al cliente // guardarlo en clientesseleccionado
+  clienteSeleccionado = buscarCliente(cedula);
+
+  //Mostar datos de cada input 
+  mostrarTextoEnCaja("cedula", clienteSeleccionado.cedula);
+  mostrarTextoEnCaja("nombre", clienteSeleccionado.nombre);
+  mostrarTextoEnCaja("apellido", clienteSeleccionado.apellido);
+  mostrarTextoEnCaja("ingresos", clienteSeleccionado.ingresos);
+  mostrarTextoEnCaja("egresos", clienteSeleccionado.egresos);
+}
+
+function limpiar(){
+  //vaiar cada input
+  mostrarTextoEnCaja("cedula", "");
+  mostrarTextoEnCaja("nombre", "");
+  mostrarTextoEnCaja("apellido", "");
+  mostrarTextoEnCaja("ingresos", "");
+  mostrarTextoEnCaja("egresos", "");
+
 }
