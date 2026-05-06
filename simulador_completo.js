@@ -8,6 +8,8 @@
   let montoCalculado = 0;
   let plazoCalculado = 0;
   let creditoAprobado = false;
+  let capacidadCalculada = 0;
+  let totalCalculado = 0;
 
   
 //Para recuperar o mostrar información usar los métodos de la clase utilitarios, puede agregar métodos adicionales en utilitarios
@@ -137,6 +139,7 @@ function buscarClienteCredito(){
     //si el cliente no existe mostramos sus datos 
     mostrarTexto("datosClienteCredito", "Cliente no encontrado");
   }else{
+    clienteSeleccionado = cliente;
     //si existe mostrar los datos con backticks y ${}
     datosClienteCredito.innerHTML = `
     <h3>Datos del cliente</h3>
@@ -148,6 +151,36 @@ function buscarClienteCredito(){
     `;
 
   }
+}
+function calcularCredito(){
+  //obtenemos el monto y plazo ingresados en los inputs
+  montoCalculado = recuperarInt("montoCredito");
+  plazoCalculado = recuperarInt("plazoCredito");
+  //calculamos la capacidda de pago 
+  capacidadCalculada = clienteSeleccionado.ingresos - clienteSeleccionado.egresos;
+  //calculamos el total a pagar sumando el monto mas los intereses
+  totalCalculado = montoCalculado + (montoCalculado * tasaInteres / 100);
+  //calculamos la cuota mensual dividiendo el total entre los intereses
+  cuotaCalculada = totalCalculado / plazoCalculado;
+  //Determinamos si el credito es aporbado o rechazado 
+  //Si la cuota es menor o igual a lo que puede pagar ---> aporbado 
+  if(cuotaCalculada <= capacidadCalculada){
+    creditoAprobado = true; 
+  }else{
+    //si la cuota es amyor a lo que puede pagar ---->
+    creditoAprobado = false;
+  }
+  resultadoCredito.innerHTML = `
+   Capacidad de pago: ${capacidadCalculada.toFixed(2)}<br>
+   Total a pagar: ${totalCalculado.toFixed(2)}<br>
+   Cuota mensual: ${cuotaCalculada.toFixed(2)}<br>
+   RESULTADO: ${creditoAprobado ? "APROBADO" : "RECHAZADO"}
+  `;
+ //Se aplica el estilo diferente segun el resultado con las dos clases que ya estan definidas en el css
+  if(creditoAprobado){
+    resultadoCredito.className = "aprobado";
 
-
+  }else{
+    resultadoCredito.className = "rechazado";
+  }
 }
