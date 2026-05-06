@@ -129,6 +129,25 @@ function limpiar(){
 }
 
 function buscarClienteCredito(){
-  let cedula  = document
+  //Tomar el valor ingresado en el campo de cedula 
+  let cedula = recuperaraTexto("buscarCedulaCredito");
+  //buscar el cliente dentro del arreglo clientes
+  let cliente = buscarCliente(cedula);
+  if(cliente == null){
+    //si el cliente no existe mostramos sus datos 
+    mostrarTexto("datosClienteCredito", "Cliente no encontrado");
+  }else{
+    //si existe mostrar los datos con backticks y ${}
+    datosClienteCredito.innerHTML = `
+    <h3>Datos del cliente</h3>
+    <p><strong>Cédula:</strong>${cliente.cedula}</p> 
+    <p><strong>Nombre:</strong>${cliente.nombre}</p> 
+    <p><strong>Apellido:</strong>${cliente.apellido}</p> 
+    <p><strong>Ingresos:</strong>${cliente.ingresos}</p>
+    <p><strong>Egresos:</strong>${cliente.egresos}</p>  
+    `;
+
+  }
+
 
 }
