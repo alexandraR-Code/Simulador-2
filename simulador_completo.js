@@ -18,6 +18,7 @@ function ocultarSecciones(){
   document.getElementById("parametros").classList.remove("activa");
   document.getElementById("clientes").classList.remove("activa");
   document.getElementById("credito").classList.remove("activa");
+  document.getElementById("listaCreditos").classList.remove("activa");
 }
 //funcion que muestra solo la seccion cuyo id recibe como parametro 
 function mostrarSeccion(id){
@@ -181,8 +182,73 @@ function calcularCredito(){
  //Se aplica el estilo diferente segun el resultado con las dos clases que ya estan definidas en el css
   if(creditoAprobado){
     resultadoCredito.className = "aprobado";
+    //si fue aprobado activamos el botón 
+    document.getElementById("btnAsignarCredito").disabled = false;
 
   }else{
     resultadoCredito.className = "rechazado";
+    //Si fue reclado activamos el boton 
+    document.getElementById("btnAsignarCredito").disabled = true;
   }
+}
+function asignarCredito(){
+  //Creamos el objeto credito con todos los datos necessarios
+  let credito ={
+    cedula: clienteSeleccionado.cedula,
+    nombre: clienteSeleccionado.nombre,
+    apellido: clienteSeleccionado.apellido,
+    monto: montoCalculado,
+    tasa: tasaInteres,
+    plazo: plazoCalculado,
+    cuota: cuotaCalculada
+  };
+  //agregamos el objeto al arreglo 
+  creditos.push(credito);
+  //Desactivamos el boton para que no se asigne 2 veces
+  document.getElementById("btnAsignarCredito").disabled =  true;
+  //avisamos que el credito due registardo 
+  alert("Crédito asignado correctamente");
+}
+function buscarCreditos(cedula){
+  //creamos un arreglo vacio donde guardamos los credito encontrados con este numero de cedula 
+  let creditosEncontrados = [];
+  //Recorremos todos lo credito registrados 
+  for(let i =0; i < creditos.length; i++){
+    //Si la cedula del credito coincide con la busqueda 
+    if(creditos[i].cedula == cedula){
+      //agregamos este mensaje al credito
+      creditosEncontrados.push(creditos[i]);
+    }
+  }
+  //Retornamos el arreglo con todos lo creditos delcliente 
+  return creditosEncontrados;
+}
+function pintarCreditos(listado){
+  //limpiar la tabla antes de pintar
+  let tabla = document.getElementById("tablaCreditos");
+  tabla.innerHTML  = "";
+  //Recorremos el arreglo que nos llego como parametro 
+  for(let i=0; i < listado.length; i++){
+    //Tomamos el credito de turno
+    let credito = listado[i];
+    //creamos un afila con los datos de credito 
+    tabla.innerHTML += "<tr>" + 
+    "<td>" + credito.cedula + "</td>" + 
+    "<td>" + credito.nombre + "</td>" +
+    "<td>" + credito.apellido + "</td>" +
+    "<td>" + credito.monto + "</td>" +
+    "<td>" + credito.tasa + "</td>" +
+    "<td>" + credito.plazo + "</td>" +
+    "<td>" + credito.cuota.toFixed(2) + "</td>"
+  "</tr>";
+  }
+}
+function buscarCreditosCliente(){
+  //Recuperar la cedula ingresada en el input
+  let cedula = recuperaraTexto("buscarCedulaListado");
+  //buscar todos los creditos de ese cliente 
+  let creditosEncontrados = buscarCreditos(cedula);
+  //Pintar la tabla los creditos encontrados 
+  pintarCreditos(creditosEncontrados);
+
 }
