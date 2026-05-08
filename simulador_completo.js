@@ -61,6 +61,7 @@ function guardarCliente(){
     apellido: apellido,
     ingresos: ingresos,
     egresos: egresos
+   
   };
 
   //agregamos el objeto al arreglo
@@ -92,6 +93,7 @@ function pintarClientes(){
       "<td>" + cliente.apellido + "</td>" + 
       "<td>" + cliente.ingresos + "</td>" + 
       "<td>"+ cliente.egresos + "</td>" + 
+      
       "<td><button onclick=\"seleccionarCliente('" + cliente.cedula + "')\">Actualizar</button></td>" +
     "</tr>"
   }
@@ -147,7 +149,7 @@ function buscarClienteCredito(){
     <p><strong>Nombre:</strong>${cliente.nombre}</p> 
     <p><strong>Apellido:</strong>${cliente.apellido}</p> 
     <p><strong>Ingresos:</strong>${cliente.ingresos}</p>
-    <p><strong>Egresos:</strong>${cliente.egresos}</p>  
+    <p><strong>Egresos:</strong>${cliente.egresos}</p>
     `;
 
   }
