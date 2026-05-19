@@ -1,6 +1,8 @@
 
   let clientes = [];
   let creditos = [];
+  let listaContactos = [{nombre: "Alexandra", numero: "1234567890"}, 
+    {nombre: "Juan", numero: "0987654321"}, {nombre: "Maria", numero: "5555555555"}];
 
   let tasaInteres = 15;
   let clienteSeleccionado = null;
@@ -10,6 +12,7 @@
   let creditoAprobado = false;
   let capacidadCalculada = 0;
   let totalCalculado = 0;
+  let montoMaximo = 10000;
 
   
 //Para recuperar o mostrar información usar los métodos de la clase utilitarios, puede agregar métodos adicionales en utilitarios
@@ -19,6 +22,8 @@ function ocultarSecciones(){
   document.getElementById("clientes").classList.remove("activa");
   document.getElementById("credito").classList.remove("activa");
   document.getElementById("listaCreditos").classList.remove("activa");
+  document.getElementById("contacto").classList.remove("activa");
+  document.getElementById("acercaDe").classList.remove("activa");
 }
 //funcion que muestra solo la seccion cuyo id recibe como parametro 
 function mostrarSeccion(id){
@@ -30,6 +35,7 @@ function mostrarSeccion(id){
 function guardarTasa(){
   //obtener el valor input y convertirlo a numero
   let tasa = recuperarFloat("tasaInteres");
+  guardarMontoMaximo();
   //validamos que este entre el 10 y 20
   if(tasa >= 10 && tasa <=20){
     //si es valido, guaradamos la variable y mostramos mensaje exitoso
@@ -40,6 +46,7 @@ function guardarTasa(){
     // si no es valido mostramos mensaje de error 
     mostrarTexto("mensajeTasa", "La tasa debe estar entre 10% y 20%");
   }
+  
 }
 function guardarCliente(){
   //obtetener datos de formulario utilizando utilitarios
@@ -48,6 +55,7 @@ function guardarCliente(){
   let apellido = recuperaraTexto("apellido");
   let ingresos = recuperarFloat("ingresos");
   let egresos = recuperarFloat("egresos");
+  let telefono = recuperarInt("telefono");
 
   //Buscamos si el cliente ya existe
   let clienteExiste = buscarCliente(cedula);
@@ -61,7 +69,8 @@ function guardarCliente(){
     nombre: nombre,
     apellido: apellido,
     ingresos: ingresos,
-    egresos: egresos
+    egresos: egresos,
+    telefono: telefono,
    
   };
 
@@ -73,6 +82,7 @@ function guardarCliente(){
     clienteExiste.apellido = apellido;
     clienteExiste.ingresos = ingresos;
     clienteExiste.egresos = egresos;
+    clienteExiste.telefono = telefono;
   }
 
   pintarClientes();
@@ -94,6 +104,7 @@ function pintarClientes(){
       "<td>" + cliente.apellido + "</td>" + 
       "<td>" + cliente.ingresos + "</td>" + 
       "<td>"+ cliente.egresos + "</td>" + 
+      "<td>" + cliente.telefono + "</td>" + 
       
       "<td><button onclick=\"seleccionarCliente('" + cliente.cedula + "')\">Actualizar</button></td>" +
     "</tr>"
@@ -121,6 +132,7 @@ function seleccionarCliente(cedula){
   mostrarTextoEnCaja("apellido", clienteSeleccionado.apellido);
   mostrarTextoEnCaja("ingresos", clienteSeleccionado.ingresos);
   mostrarTextoEnCaja("egresos", clienteSeleccionado.egresos);
+  mostrarTextoEnCaja("telefono", clienteSeleccionado.telefono);
 }
 
 function limpiar(){
@@ -130,6 +142,7 @@ function limpiar(){
   mostrarTextoEnCaja("apellido", "");
   mostrarTextoEnCaja("ingresos", "");
   mostrarTextoEnCaja("egresos", "");
+  mostrarTextoEnCaja("telefono", "");
 
 }
 
@@ -151,11 +164,24 @@ function buscarClienteCredito(){
     <p><strong>Apellido:</strong>${cliente.apellido}</p> 
     <p><strong>Ingresos:</strong>${cliente.ingresos}</p>
     <p><strong>Egresos:</strong>${cliente.egresos}</p>
+    <p><strong>Teléfono:</strong>${cliente.telefono}</p>
     `;
 
   }
 }
 function calcularCredito(){
+  let valor = recuperarFloat("montoMaximo");
+
+  if(valor > 0){
+    montoMaximo ==  valor;
+    alert("Monto maximo: " + montoMaximo);
+
+  }else{
+   alert("El monto maximo debe ser mayor a 0");
+  }
+
+  ///examen revisar ///
+
   //obtenemos el monto y plazo ingresados en los inputs
   montoCalculado = recuperarInt("montoCredito");
   plazoCalculado = recuperarInt("plazoCredito");
@@ -251,4 +277,44 @@ function buscarCreditosCliente(){
   //Pintar la tabla los creditos encontrados 
   pintarCreditos(creditosEncontrados);
 
+}
+function pintarContactos(){
+  let cmpNombre = recuperarElemento("tablaContactos");
+  let contenedor = "";
+  for(let i = 0; i < listaContactos.length; i++){
+    let contacto = listaContactos[i];
+    contenedor += "<tr>" + 
+    "<td>" + contacto.nombre + "</td>" +
+    "<td>" + contacto.numero + "</td>" +
+    "</tr>";
+  }
+  cmpNombre.innerHTML = contenedor;
+}
+
+///----------------Examen--------------//
+function guardarMontoMaximo(){
+  calcularCredito(); 
+}
+function mostrarCreditosVIP(){
+  let creditosVIP =[];
+
+  for(let i =0; i < creditos.length; i++){
+    if(creditos[i].monto > 5000){
+      creditosVIP.push(creditos[i]);
+    }
+  }
+  pintarCreditos(creditosVIP);
+}
+function mostarAcercaDe(){
+  let cmpAcercaDe = recuperarElemento("tablaAcercaDe");
+  let contenido = "";
+  contenido += `
+  <th> Alexandra Ramirez</th>
+  <th>Ingeniería de Software</th>
+  <th>@alexandra_ramirez</th>
+  <th>La programación es el lenguaje de la innovación.</th>
+  <th>Foto</th>`
+
+
+  cmpAcercaDe.innerHTML = contenido;
 }

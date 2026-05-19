@@ -33,3 +33,8 @@ function recuperaraTexto(idComponente){
         componente.src = rutaImagen;
     
     }
+    function recuperarElemento(idComponente){
+        let componente;
+        componente = document.getElementById(idComponente);
+        return componente;
+    }

@@ -15,19 +15,67 @@
   <button onclick="mostrarSeccion(`parametros`);">Parámetros</button>
   <button onclick="mostrarSeccion(`clientes`);">Clientes</button>
   <button onclick="mostrarSeccion(`credito`);">Créditos</button>
-<<<<<<< HEAD
   <button onclick="mostrarSeccion(`listaCreditos`);">Créditos Registrados</button>
-=======
->>>>>>> dev
+  <button onclick="mostrarSeccion(`contacto`);">Contactos</button>
+  <button onclick="mostrarSeccion(`acercaDe`)">Acerca de</button>
 </nav>
 <section id="contacto">
-  <h2>Desarrollado por Alexandra Ramirez</h2>
+  <h2>Contactos</h2>
+  <input type="text" id="buscarContacto">
+  <button onclick="buscarContactos('nombre');">Buscar por nombre</button>
+  <button onclick="buscarContactos('numero');">Buscar por numero</button>
+  <button onclick="ordenarContactos('nombre');">Ordenar por nombre</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Número</th>
+      </tr>
+    </thead>
+    <tbody id="tablaContactos">
+      
+    </tbody>
+  </table>
+  <p>Desarrollado por: Alexandra Ramirez</p>
+</section>
+
+<section id="acercaDe">
+  <h2>Acerca de</h2>
+  <input type="text" id="nombre" placeholder="Cédula">
+  <input type="text" id="carrera" placeholder="Carrera">
+  <input type="text" id="redes" placeholder="Redes sociales">
+  <input type="text" id="frase" placeholder="Frase personal">
+  <input type="text" id="foto" placeholder="Foto">
+
+  <button onclick="mostarAcercaDe();"> Mostrar Acerca de</button>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Carrera</th>
+        <th>Redes sociales</th>
+        <th>Frase personal</th>
+        <th>Foto</th>
+        <th>Información adicional que considere relevante.</th>
+      </tr>
+    </thead>
+    <tbody id="tablaAcercaDe">
+
+    </tbody>
+  </table>
 </section>
 
 <section id="parametros">
   <h2>Configurar Parámetros</h2>
 
-  <label>Tasa de interés:</label>
+  //Nuevo parametro maximo credito
+  <label>Monto Máximo:</label>
+  <input type="number" id="montoMaximo" value="10000">
+  <button onclick="guardarMontoMaximo();">Monto maximo</button>
+  <p id="mensajeMontoMaximo"></p>
+
+    <label>Tasa de interés:</label>
   <input type="number" id="tasaInteres" min="10" max="20" value="15">
   <span>%</span>
 
@@ -45,6 +93,7 @@
   <input type="text" id="apellido" placeholder="Apellido">
   <input type="number" id="ingresos" placeholder="Ingresos">
   <input type="number" id="egresos" placeholder="Egresos">
+  <input type="number" id="telefono" placeholder="Teléfono"> 
   
 
   <br>
@@ -130,6 +179,7 @@
   <input type="text" id="buscarCedulaListado" >
   <button onclick="buscarCreditosCliente()">Buscar</button>
   <button onclick="pintarCreditos(creditos)">Ver todos</button>
+  <button onclick="mostrarCreditosVIP();">ver créditos</button>
 
   <table>
     <thead>
